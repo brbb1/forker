@@ -1,0 +1,4 @@
+aiohttp==3.8.4
+aioredis==2.0.1
+asyncpg==0.28.0
+aiohttp-devtools==1.1

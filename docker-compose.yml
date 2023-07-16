@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  aiohttp:
+    build:
+      context: .
+    container_name: forker_app
+    ports:
+      - "8097:8097"
+      - "8098:8000"
+      - "8099:8001"
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./app:/app
+
+  postgres:
+    image: postgres:15.3-alpine
+    container_name: forker_db
+    environment:
+      - POSTGRES_USER=your_username
+      - POSTGRES_PASSWORD=your_password
+      - POSTGRES_DB=your_database
+    ports:
+      - 5432:15432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - forker-network
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: forker_cache
+    networks:
+      - forker-network
+
+networks:
+  forker-network:
+    driver: bridge
